@@ -31,7 +31,7 @@ Homepage
         {% if pages %}
             <ul>
                 {% for page in pages %}
-                   <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                   <li><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}

@@ -1,0 +1,21 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    {% if page %}
+      {{ page.title }}
+    {% else %}
+       Unknown News
+    {% endif %}
+{% endblock %}
+
+{% block body_block %}
+    {% if page %}
+        <h1>{{ page.title }}</h1><br />
+        <a href="{{ page.url }}">{{ page.title }}</a>
+    {% else %}
+    <strong>No particular news.</strong>
+    {% endif %}
+    {% if user.is_authenticated %}
+     <h1>Here</h1>
+    {% endif %}
+{% endblock %}
