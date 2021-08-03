@@ -1,0 +1,16 @@
+form login_form{
+    position: relative;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+input[type=text] {
+    width: 100%;
+    font-size: 16px;
+    background-color: white;
+}
+input[type=password] {
+    width: 100%;
+    font-size: 16px;
+    background-color: white;
+}
