@@ -16,6 +16,23 @@
     <strong>No particular news.</strong>
     {% endif %}
     {% if user.is_authenticated %}
-     <h1>Here</h1>
+    <div>
+        <form id="add_comment_form" method="post" action="{% url 'rango:add_comment' category.slug page.slug %} ">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+            <input type="submit" name="submit" value="Send Comment" />
+        </form>
+    </div>
+    {% endif %}
+    {% if comments %}
+    <ul>
+           {% for comment in comments %}
+              <li>{{ comment.user.username }}: {{ comment.content }} {{ comment.time }}</li>
+           {% endfor %}
+    </ul>
     {% endif %}
 {% endblock %}

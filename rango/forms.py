@@ -42,3 +42,9 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('website','picture',)
 
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(max_length=Comment.CONTENT_MAX_LENGTH,help_text="Share your opinion.")
+    
+    class Meta:
+        model = Comment
+        fields = ('content',)

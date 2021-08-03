@@ -1,3 +1,4 @@
+
 from os import name
 from django.urls import path 
 from rango import views
@@ -14,5 +15,6 @@ urlpatterns = [
     path('login/',views.user_login,name='login'),
     path('restricted/',views.restricted,name='restricted'),
     path('logout/',views.user_logout,name='logout'),
-    path('<slug:category_name_slug>/<slug:page_title_slug>',views.show_page,name='show_page')
+    path('<slug:category_name_slug>/<slug:page_title_slug>',views.show_page,name='show_page'),
+    path('<slug:category_name_slug>/<slug:page_title_slug>/add_comment/',views.add_comment,name='add_comment')
 ]

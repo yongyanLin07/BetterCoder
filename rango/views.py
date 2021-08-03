@@ -1,10 +1,12 @@
+from django.http.response import FileResponse
 from rango.forms import CategoryForm
 from rango.forms import PageForm
-from rango.forms import UserForm,UserProfileForm
+from rango.forms import UserForm,UserProfileForm,CommentForm
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from rango.models import Category
 from rango.models import Page
+from rango.models import Comment
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -38,18 +40,35 @@ def show_page(request,category_name_slug,page_title_slug):
     context_dict = {}
     try:
         page = Page.objects.get(slug = page_title_slug)
+        # update the number of views of each News
         page.views += 1
         page.save(update_fields=['views'])
         context_dict['page'] = page
     except Page.DoesNotExist:
+        page = None
         context_dict['page'] = None
+    try:
+        category = Category.objects.get(slug = category_name_slug)
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        context_dict['category'] = None
+        category = None
+    if page is None:
+        return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
+    if category is None:
+        return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
+    
+    form = CommentForm()
+    comments = Comment.objects.filter(page = page)
+    context_dict['form'] = form
+    context_dict['comments'] = comments
     return render(request,'rango/PageDetails.html',context = context_dict)
 
 def show_category(request, category_name_slug):
     context_dict = {}
     try:
         category = Category.objects.get(slug = category_name_slug)
-        # record views
+        # update the number of views of each Category
         category.views += 1
         category.save(update_fields=['views'])
         
@@ -61,7 +80,43 @@ def show_category(request, category_name_slug):
         context_dict['category'] = None
     return render(request,'rango/category.html',context = context_dict)
 
-
+@login_required
+def add_comment(request,category_name_slug,page_title_slug):
+    current_user = request.user
+    context_dict = {}
+    try:
+        page = Page.objects.get(slug = page_title_slug)
+        context_dict['page'] = page
+    except Page.DoesNotExist:
+        page = None
+    try:
+        category = Category.objects.get(slug = category_name_slug)
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        category = None
+    if page is None:
+        return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
+    if category is None:
+        return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
+    
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if category and page:
+                comment = form.save(commit=False)
+                comment.page = page
+                comment.user = current_user
+                comment.save()
+                page.comments += 1
+                page.save(update_fields=['comments'])
+            else: 
+                print(form.errors)
+    form = CommentForm()
+    comments = Comment.objects.filter(page = page)
+    context_dict['form'] = form
+    context_dict['comments'] = comments
+    return render(request,'rango/PageDetails.html',context = context_dict)
 
 @login_required
 def add_category(request):
