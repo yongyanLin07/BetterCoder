@@ -124,7 +124,10 @@ def add_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
-            form.save(commit=True)
+            category = form.save(commit=False)
+            if 'image' in request.FILES:
+                category.image = request.FILES['image']
+            category.save()
             return redirect(reverse('rango:index')) 
         else:
             print(form.errors)
@@ -147,7 +150,8 @@ def add_page(request, category_name_slug):
             if category: 
                 page = form.save(commit=False) 
                 page.category = category 
-                page.views = 0 
+                if 'image' in request.FILES:
+                    page.image = request.FILES['image']
                 page.save()
                 return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
         else: 
