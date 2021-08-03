@@ -6,17 +6,29 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Register for Rango</h1>
-{% if registered %}
-Rango says: <strong>thank you for registering!</strong>
-<a href="{%url 'rango:index' %}">Return to the homepage.</a>
-{% else %}
-Rango says: <strong>register here!</strong><br />
-<form id="user_form" method="post" action="{% url 'rango:register' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    <input type="submit" name="submit" value="Register" />
-</form>
+<link rel="stylesheet" type="text/css" href="/static/css/register.css">
+<div class="register">
+    <br />
+    <h1>Register Now</h1><br /><br />
+    {% if registered %}
+    Please <strong>thank you for registering!</strong>
+    <a href="{%url 'rango:index' %}">Return to the homepage.</a>
+    {% else %}
+    Rango says: <strong>register here!</strong><br />
+</div>
+
+<div class="user">
+    <form id="user_form" method="post" action="{% url 'rango:register' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}<br />
+        {{ profile_form.as_p }}<br />
+        <input type="submit" name="submit" value="Register" />
+    </form>
+</div>
+    
+
+<div class="register_bgimg">
+    <img src="{% static 'images/Register.jpg' %}" alt="Register" width="100%" height="100%"/>
+</div>
 {% endif %}
 {% endblock %}

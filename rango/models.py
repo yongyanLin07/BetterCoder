@@ -36,7 +36,14 @@ class Page(models.Model):
     comments = models.IntegerField(default=0)
     url = models.URLField() 
     views = models.IntegerField(default=0)
+
     image = models.ImageField(upload_to = 'page_images',blank=True)
+
+    likes = models.IntegerField(default=0)
+    marks = models.IntegerField(default=0)
+    comments = models.IntegerField(default=0)
+    image = models.ImageField(upload_to = 'profile_images',blank=True)
+
     description = models.CharField(max_length=DESCRIPTION_MAX_LENGTH)
     slug = models.SlugField(unique=True)
     comment_num = models.IntegerField(default=0)
