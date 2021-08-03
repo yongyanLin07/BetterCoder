@@ -38,6 +38,11 @@
             <li><a href="{% url 'rango:index' %}">Index</a></li> 
         </ul>
 
+        <from action="/search/" method="get">
+            <input type="text" name="q">
+            <input type="submit" value="submit">
+        </from>
+
     </div>
 </body>
 </html>
