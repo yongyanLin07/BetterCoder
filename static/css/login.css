@@ -14,3 +14,22 @@ input[type=password] {
     font-size: 16px;
     background-color: white;
 }
+.login_box{
+    background-color: rgb(180, 225, 233, 0.1); 
+    position: relative; 
+    margin: 0 auto; 
+    top: 260px; 
+    width: min-content; 
+    height: min-content;
+}
+.login{
+    width: 100%;
+    text-align: center;
+}
+.login_bgimg{
+    position: fixed; 
+    z-index: -1; 
+    top:0;  
+    width: 100%; 
+    height: 100%;
+}
