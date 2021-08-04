@@ -3,41 +3,89 @@
 {% block title_block %}
 Homepage
 {% endblock %}
+{% block index_block %}
+    Welcome to News World
+{% endblock %}
+
 {% block body_block %}
-    <h1>Rango says...</h1>
-    <div>
-    {% if user.is_authenticated %}
-       howdy {{ user.username }}!
-    {% else %}
-       hey there partner!
-    {% endif %}
-    <br /> 
-        <strong>{{ boldmessage }}</strong><br /> 
-    </div>
-    <h2>Most Liked Categories</h2>
-    <div>
-    {% if categories %}
-        <ul>
+<div class="causes-area pt-120 pb-90">
+    <div class="container">
+        <div class="section-title text-center mb-75">
+            <h2>Most Liked Categories</h2>
+            <div class="icon-img">
+                <img src="assets/img/icon-img/1.png" alt="">
+            </div>
+            <p>Our most liked categories of news</p>
+        </div>
+        <div class="row">
+            {% if categories %}
             {% for category in categories %}
+            <div class="col-md-4 col-sm-4">
+                <div class="single-causes mb-30">
+                    <a href="#"><img src="" alt="Currently no picture" /></a>
+                    <div class="causes-info">
+                        <h3><a href="">{{ category.name }}</a></h3>
+                        <p>{{ category.description }}</p>
+                        <div class="causes-meta">
+                            <div class="doller-target f-left">
+                                <h4>Views : <span>{{ category.views }}</span></h4>
+                            </div>
+                            <div class="doller-target f-right">
+                                <h4>Likes : <span>{{ category.likes }}</span></h4>
+                            </div>
+                        </div>
+                        <div class="causes-meta">
+                            <div class="doller-target f-left">
+                                <h4>Comments : <span>{{ category.comments }}</span></h4>
+                            </div>
+                        </div>
+                        <a class="button theme-bg" href="causes.html">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="blog-area pt-120 pb-90">
+    <div class="container">
+        <div class="section-title text-center mb-75">
+            <h2>Most viewed News</h2>
+            <div class="icon-img">
+                <img src="assets/img/icon-img/1.png" alt="">
+            </div>
+            <p>Our most viewed news</p>
+        </div>
+        <ul>
+            {% if categories %}
+            <div class="row">
+                {% for category in categories %}
+                <div class="col-md-4 col-sm-4">
+                    <div class="single-blog mb-30">
+                        <div class="blog-img">
+                            <a href="blog.html"><img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat" /></a>
+                            <div class="blog-icon">
+                                <a class="blog-link" href="blog.html">
+                                    <img src="assets/img/icon-img/4.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-info">
+                            <span>September 06, 2017</span>
+                            <h3><a href="blog.html">Save The Child</a></h3>
+                            <a href="blog.html">Read More 
+                                <img class="b-blog" src="assets/img/icon-img/3.png" alt="">
+                                <img class="b-none" src="assets/img/icon-img/5.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
                <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></li>
             {% endfor %}
         </ul>
-    {% else %}
-        <strong>There are no categories present.</strong>
-    {% endif %}    
-    </div>
-    <h2>Most Viewed Pages</h2>
-    <div>
-        {% if pages %}
-            <ul>
-                {% for page in pages %}
-                   <li><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no pages present.</strong>
-        {% endif %}    
-    </div>
-    <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
+        {% endif %} 
+</div>
+</div>
 {% endblock %}
 

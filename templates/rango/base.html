@@ -11,10 +11,10 @@
             {% endblock %}
         </title>  
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script type="text/javascript" src="/static/js/jqueryFunction.js"></script>
-        <link rel="stylesheet" href="static/css/bootstrap.min.css">
-        <link rel="stylesheet" href="static/css/bundle.css">
-        <link rel="stylesheet" href="static/css/style.css">
+        <script type="text/javascript" src="{% static 'css/bootstrap.min.css' %}"></script>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bundle.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
     </head>
 <body>
     <header class="header-area">
@@ -47,7 +47,7 @@
             </div>
     </header>
     <div class="slider-area">
-        <div class="breadcrumb-area pt-240 pb-125" style="background-image:url(static/images/NewsTitle.jpg);" data-overlay="5">
+        <div class="breadcrumb-area pt-240 pb-125" style="background-image: url('{% static 'images/NewsTitle.jpg' %}');" data-overlay="5">
             <div class="container">
                 <div class="breadcrumb-text text-center z-index">
                     <h2>
