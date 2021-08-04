@@ -11,35 +11,35 @@ Homepage
 <div class="causes-area pt-120 pb-90">
     <div class="container">
         <div class="section-title text-center mb-75">
-            <h2>Most Liked Categories</h2>
+            <h2>Most Viewed News</h2>
             <div class="icon-img">
-                <img src="assets/img/icon-img/1.png" alt="">
+                <img src="{% static 'images/NewsLogo.jpg' %}" style="height: 40px; width: 40px;" alt="">
             </div>
-            <p>Our most liked categories of news</p>
+            <p>Our most viewed news</p>
         </div>
         <div class="row">
-            {% if categories %}
-            {% for category in categories %}
+            {% if pages %}
+            {% for page in pages %}
             <div class="col-md-4 col-sm-4">
                 <div class="single-causes mb-30">
-                    <a href="#"><img src="" alt="Currently no picture" /></a>
+                    <a href="{% url 'rango:show_page' page.category.slug page.slug %}"><img src="" alt="Currently no picture" /></a>
                     <div class="causes-info">
-                        <h3><a href="">{{ category.name }}</a></h3>
-                        <p>{{ category.description }}</p>
+                        <h3><a href="">{{ page.title }}</a></h3>
+                        <p>{{ page.description }}</p>
                         <div class="causes-meta">
                             <div class="doller-target f-left">
-                                <h4>Views : <span>{{ category.views }}</span></h4>
+                                <h4>Views : <span>{{ page.views }}</span></h4>
                             </div>
                             <div class="doller-target f-right">
-                                <h4>Likes : <span>{{ category.likes }}</span></h4>
+                                <h4>Likes : <span>{{ page.likes }}</span></h4>
                             </div>
                         </div>
                         <div class="causes-meta">
                             <div class="doller-target f-left">
-                                <h4>Comments : <span>{{ category.comments }}</span></h4>
+                                <h4>Comments : <span>{{ page.comments }}</span></h4>
                             </div>
                         </div>
-                        <a class="button theme-bg" href="causes.html">Read More</a>
+                        <a class="button theme-bg" href="{% url 'rango:show_page' page.category.slug page.slug %}">Read More</a>
                     </div>
                 </div>
             </div>
@@ -51,11 +51,11 @@ Homepage
 <div class="blog-area pt-120 pb-90">
     <div class="container">
         <div class="section-title text-center mb-75">
-            <h2>Most viewed News</h2>
+            <h2>Most Liked Categories</h2>
             <div class="icon-img">
-                <img src="assets/img/icon-img/1.png" alt="">
+                <img src="{% static 'images/NewsLogo.jpg' %}" style="height: 40px; width: 40px;" alt="">
             </div>
-            <p>Our most viewed news</p>
+            <p>Our most liked categories</p>
         </div>
         <ul>
             {% if categories %}
@@ -64,7 +64,7 @@ Homepage
                 <div class="col-md-4 col-sm-4">
                     <div class="single-blog mb-30">
                         <div class="blog-img">
-                            <a href="blog.html"><img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat" /></a>
+                            <a href="{% url 'rango:show_category' category.slug %}"><img src="" alt="Currently no picture" /></a>
                             <div class="blog-icon">
                                 <a class="blog-link" href="blog.html">
                                     <img src="assets/img/icon-img/4.png" alt="">
@@ -72,16 +72,16 @@ Homepage
                             </div>
                         </div>
                         <div class="blog-info">
-                            <span>September 06, 2017</span>
-                            <h3><a href="blog.html">Save The Child</a></h3>
-                            <a href="blog.html">Read More 
-                                <img class="b-blog" src="assets/img/icon-img/3.png" alt="">
-                                <img class="b-none" src="assets/img/icon-img/5.png" alt="">
-                            </a>
+                            <span>{{ category.description }}</span>
+                            <h3><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></h3>
+                            <a href="{% url 'rango:show_category' category.slug %}">Read More </a>
+                            <div class="doller-target f-right">
+                                <h4>Likes : <span>{{ category.likes }}</span></h4>
+                            </div>
                         </div>
                     </div>
                 </div>
-               <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></li>
+               
             {% endfor %}
         </ul>
         {% endif %} 

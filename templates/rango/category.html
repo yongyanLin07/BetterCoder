@@ -7,25 +7,40 @@
        Unknown Category
     {% endif %}
 {% endblock %}
-
+{% block index_block %}
+   {% if category %}
+      {{ category.name }}
+   {% else %}
+      Unknown Category
+   {% endif %}
+{% endblock %}
 {% block body_block %}
-    {% if category %}
-        <h1>{{ category.name }}</h1>
-        {% if pages %}
-        <ul>
+<div class="volunter-area pt-120 pb-90">
+    <div class="container">
+        <div class="section-title text-center mb-75">
+            <h2>What's {{ category.name }}</h2>
+            <p class="section-2">{{ category.description }}</p>
+        </div>
+        <div class="row">
+            {% if pages %}
             {% for page in pages %}
-            <li>
-                <a href="{{ page.url }}">{{ page.title }}</a>
-            </li>
+            <div class="col-md-6">
+                <div class="event-img-info mb-30">
+                    <img src="{{ MEDIA_URL }}cat.jpg" alt="">
+                    <div class="event-info">
+                        <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
+                        <div class="event-time-date">
+                            <span>Likes: {{ page.likes }}</span>
+                            <span>Views: {{ page.views }}</span>
+                            <span>Comments: {{ page.comments }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
-        </ul>
-        {% else %}
-        <strong>No pages currently in category.</strong>
-        {% endif %}
-        {% if user.is_authenticated %} 
-        <a href="{% url 'rango:add_page' category.slug %}">Add Page</a> <br/>
-        {% endif %}
-    {% else %}
-    The specified category does not exist. 
-    {% endif %} 
+            {% endif %}
+        </div>
+    </div>
+</div>      
+    
 {% endblock %}
