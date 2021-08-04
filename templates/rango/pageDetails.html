@@ -28,6 +28,7 @@
             <input type="submit" name="submit" value="Send Comment" />
         </form>
     </div>
+    <img id ="collect" src="{% static 'images/collect.png' %}" alt="Picture of Collect" />
     {% endif %}
     {% if comments %}
     <ul>
@@ -36,4 +37,6 @@
            {% endfor %}
     </ul>
     {% endif %}
+{% endblock %}
+{% block custom_js %}
 {% endblock %}

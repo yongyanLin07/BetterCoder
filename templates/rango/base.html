@@ -7,45 +7,73 @@
         <title>
             What's New
             {% block title_block %}
-               How to Tango with Django!
+               Rango
             {% endblock %}
         </title>  
-
-        <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script type="text/javascript" src="/static/js/jqueryFunction.js"></script>
+        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/css/bundle.css">
+        <link rel="stylesheet" href="static/css/style.css">
     </head>
 <body>
-
-    <ul>
-            {% if user.is_authenticated %} 
-            <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li> 
-            <li><a href="{% url 'rango:logout' %}">Logout</a></li> 
-            {% else %} 
-            <li><a href="{% url 'rango:register' %}">Sign Up</a></li> 
-            <li><a href="{% url 'rango:login' %}">Login</a></li> 
-            {% endif %} 
-            {% if user.is_authenticated %} 
-            <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
-            {% endif %}
-            <li><a href="{% url 'rango:about' %}">About</a></li> 
-            <li><a href="{% url 'rango:index' %}">Home</a></li>
-        
-    </ul>
-    <div style="background-color: white;height: 50px;"></div>
-
+    <header class="header-area">
+        <div class="header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <div class="logo">
+                            <a href="index.html"><img src="{% static 'images/NewsLogo.jpg' %}" style="height: 40px; width: 40px;" alt="" /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-sm-9 hidden-xs">
+                        <div class="main-menu f-left">
+                            <nav>
+                                <ul>
+                                    <li><a href="{% url 'rango:index' %}">Home</a></li>
+                                    <li><a href="{% url 'rango:about' %}">About US</a></li>
+                                    {% get_category_list category %}
+                                    {% if user.is_authenticated %} 
+                                    <li><a href="#">{{ user.username }}</a></li>
+                                    <li><a href="{% url 'rango:logout' %}">Logout</a></li> 
+                                    {% else %}
+                                    <li><a href="{% url 'rango:login' %}">Login</a></li> 
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </header>
+    <div class="slider-area">
+        <div class="breadcrumb-area pt-240 pb-125" style="background-image:url(static/images/NewsTitle.jpg);" data-overlay="5">
+            <div class="container">
+                <div class="breadcrumb-text text-center z-index">
+                    <h2>
+                        {% block index_block %}
+                           Welcome to News World
+                        {% endblock %}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
     <div>
         {% block body_block %}
         {% endblock %} 
     </div>
-    <div> 
-        {% block sidebar_block %} 
-           {% get_category_list category %} 
-        {% endblock %} 
-    </div>
-
-    <div id="footer">
-        <h3>Copyright<br /></h3>
-    </div>
     
-    
+    <footer class="footer-area pt-120 black-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="footer-bottom text-center">
+                        <p>Developed by BetterCoder Team</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

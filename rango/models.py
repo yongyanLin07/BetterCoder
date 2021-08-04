@@ -75,16 +75,16 @@ class Comment(models.Model):
 
 class Like(models.Model): # without registration in rango/admin.py
     time = models.DateField(auto_now=True)
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    page = models.OneToOneField(Page,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    page = models.ForeignKey(Page,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.page.title + "(liked by " + self.user.username + ")"
 
 class Mark(models.Model):
     time = models.DateField(auto_now=True)
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    page = models.OneToOneField(Page,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    page = models.ForeignKey(Page,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.page.title + "(marked by " + self.user.username + ")"
