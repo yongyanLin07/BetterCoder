@@ -82,41 +82,44 @@ def show_category(request, category_name_slug):
 
 @login_required
 def add_comment(request,category_name_slug,page_title_slug):
-    current_user = request.user
-    context_dict = {}
-    try:
-        page = Page.objects.get(slug = page_title_slug)
-        context_dict['page'] = page
-    except Page.DoesNotExist:
-        page = None
-    try:
-        category = Category.objects.get(slug = category_name_slug)
-        context_dict['category'] = category
-    except Category.DoesNotExist:
-        category = None
-    if page is None:
-        return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
-    if category is None:
-        return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
-    
     form = CommentForm()
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            if category and page:
-                comment = form.save(commit=False)
-                comment.page = page
-                comment.user = current_user
-                comment.save()
-                page.comments += 1
-                page.save(update_fields=['comments'])
-            else: 
-                print(form.errors)
-    form = CommentForm()
-    comments = Comment.objects.filter(page = page)
-    context_dict['form'] = form
-    context_dict['comments'] = comments
-    return render(request,'rango/PageDetails.html',context = context_dict)
+        current_user = request.user
+        context_dict = {}
+        try:
+            page = Page.objects.get(slug = page_title_slug)
+            context_dict['page'] = page
+        except Page.DoesNotExist:
+            page = None
+        try:
+            category = Category.objects.get(slug = category_name_slug)
+            context_dict['category'] = category
+        except Category.DoesNotExist:
+            category = None
+        if page is None:
+            return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
+        if category is None:
+            return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
+    
+        form = CommentForm()
+        if request.method == 'POST':
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                if category and page:
+                    comment = form.save(commit=False)
+                    comment.page = page
+                    comment.user = current_user
+                    comment.save()
+                    page.comments += 1
+                    page.save(update_fields=['comments'])
+                    form = CommentForm()
+                    comments = Comment.objects.filter(page = page)
+                    context_dict['form'] = form
+                    context_dict['comments'] = comments
+                    return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
+                else: 
+                    print(form.errors)
+    return render(request,'rango/pageDetails.html',{'form':form})
 
 @login_required
 def add_category(request):

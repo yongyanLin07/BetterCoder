@@ -7,36 +7,65 @@
        Unknown News
     {% endif %}
 {% endblock %}
-
+{% block index_block %}
+  {{page.title}}
+{% endblock %}
 {% block body_block %}
-    {% if page %}
-        <h1>{{ page.title }}</h1><br />
-        <a href="{{ page.url }}">{{ page.title }}</a>
-        
-    {% else %}
-    <strong>No particular news.</strong>
-    {% endif %}
-    {% if user.is_authenticated %}
-    <div>
-        <form id="add_comment_form" method="post" action="{% url 'rango:add_comment' category.slug page.slug %} ">
-            {% csrf_token %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
-            <input type="submit" name="submit" value="Send Comment" />
-        </form>
+<div class="event-all-area ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="event-left-sidebar">
+                    <div class="event-text">
+                        <h3>{{ page.title }}</h3>
+                        <p>{{ page.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <img id = "pic" src="{% static 'images/NewsLogo.jpg' %}" alt="">
+            </div>
+        </div>
     </div>
-    <img id ="collect" src="{% static 'images/collect.png' %}" alt="Picture of Collect" />
-    {% endif %}
-    {% if comments %}
-    <ul>
-           {% for comment in comments %}
-              <li>{{ comment.user.username }}: {{ comment.content }} {{ comment.time }}</li>
-           {% endfor %}
-    </ul>
-    {% endif %}
+</div>
+<div style="background: white; height: 100px; width: 100%;"></div>
+{% if comments %}
+<ul id = "list">
+   {% for comment in comments %}
+      <li><span id="username">{{ comment.user.username }} :<br \></span> 
+        <span id = "comment">{{ comment.content }}</span> <span id = "date">Date: {{ comment.time }}</span></li>
+   {% endfor %}
+</ul>
+{% endif %}
+{% if user.is_authenticated %}
+<div class="become-volunter-area gray-bg ptb-100">
+    <div class="container">
+        <div class="section-title text-center mb-75">
+            <h2>Share your opinion</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="contact-title-form">
+                    <div class="leave-form">
+                        <form id="add_comment_form" method="post" action="{% url 'rango:add_comment' category.slug page.slug %} ">
+                            {% csrf_token %}   
+                                <div class="col-md-12">
+                                    {{ form.content }}
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <button class="submit" type="submit">Send Now</button>
+                                    <span class="iconfont icon-aixin"></span>
+                                    <img id ="collect" src="{% static 'images/collect.png' %}" alt="Picture of Collect" />
+                                </div>
+                            </div>
+                        </form>
+                        <p class="form-messege"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endif %}
 {% endblock %}
 {% block custom_js %}
 {% endblock %}
