@@ -1,3 +1,4 @@
+from django.db.models import query
 from django.http.response import FileResponse
 from rango.forms import CategoryForm
 from rango.forms import PageForm
@@ -6,7 +7,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from rango.models import Category
 from rango.models import Page
-from rango.models import Comment
+from rango.models import Comment,Like,Mark
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -36,8 +37,10 @@ def about(request):
     context_dict['boldmessage'] = 'This tutorial has been put together by Yongyan Lin'
     return render(request, 'rango/about.html', context=context_dict)
 
+@login_required
 def show_page(request,category_name_slug,page_title_slug):
     context_dict = {}
+    current_user = request.user
     try:
         page = Page.objects.get(slug = page_title_slug)
         # update the number of views of each News
@@ -57,7 +60,16 @@ def show_page(request,category_name_slug,page_title_slug):
         return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
     if category is None:
         return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category_name_slug,'page_title_slug':page_title_slug}))
-    
+    like = Like.objects.filter(page=page,user=current_user)
+    mark = Mark.objects.filter(page=page,user=current_user)
+    if like.count == 0:
+        context_dict['like'] = None
+    else:
+        context_dict['like'] = like
+    if mark.count == 0:
+        context_dict['mark'] = None
+    else:
+        context_dict['mark'] = mark
     form = CommentForm()
     comments = Comment.objects.filter(page = page)
     context_dict['form'] = form
@@ -239,4 +251,48 @@ def visitor_cookie_handler(request):
     
     request.session['visits'] = visits
 
+@login_required
+def like_page(request):
+    context_dict = {}
+    page_id = request.POST.get('page_id', 0)
+    page = Page.objects.get(id = page_id)
+    category  = Category.objects.get(page = page)
+    current_user = request.user
+    try:
+        like = Like.objects.get(page = page,user = current_user)
+        like.delete()
+        page.likes -=1
+        category.likes -=1
+        page.save(update_fields=['likes'])
+        category.save(update_fields=['likes'])
+        context_dict['like'] = None
+    except Like.DoesNotExist:
+        page.likes+=1
+        category.likes+=1
+        page.save(update_fields=['likes'])
+        category.save(update_fields=['likes'])
+        like = Like.objects.get_or_create(page = page,user = current_user)
+        context_dict['like'] = like
+
+    return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category.slug,'page_title_slug':page.slug}))
+@login_required
+def mark_page(request):
+    context_dict = {}
+    page_id = request.POST.get('page_id', 0)
+    page = Page.objects.get(id = page_id)
+    category  = Category.objects.get(page = page)
+    current_user = request.user
+    try:
+        mark = Mark.objects.get(page = page,user = current_user)
+        mark.delete()
+        page.marks -=1
+        page.save(update_fields=['marks'])
+        context_dict['mark'] = None
+    except Mark.DoesNotExist:
+        page.marks+=1
+        page.save(update_fields=['marks'])
+        mark = Mark.objects.get_or_create(page = page,user = current_user)
+        context_dict['mark'] = mark
+
+    return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category.slug,'page_title_slug':page.slug}))
 

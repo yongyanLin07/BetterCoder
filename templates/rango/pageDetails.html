@@ -7,6 +7,80 @@
        Unknown News
     {% endif %}
 {% endblock %}
+{% block ajax_block %}
+<script type="text/javascript">
+function add_like(current_elem, page_id){
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url:"{% url 'rango:like_page' %}",
+        data:{'page_id':page_id},
+        async: true,
+        beforeSend:function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(data) {
+            if(data.status == 'fail'){
+                if(data.msg == 'Please login'){
+                    window.location.href="{% url 'rango:login' %}";
+                }else{
+                    current_elem.text(data.msg)
+                }
+
+            }else if(data.status == 'success'){
+                current_elem.text(data.msg)
+            }
+        },
+    });
+}
+
+function add_mark(current_elem, page_id){
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url:"{% url 'rango:mark_page' %}",
+        data:{'page_id':page_id},
+        async: true,
+        beforeSend:function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(data) {
+            if(data.status == 'fail'){
+                if(data.msg == 'Please login'){
+                    window.location.href="{% url 'rango:login' %}";
+                }else{
+                    current_elem.text(data.msg)
+                }
+
+            }else if(data.status == 'success'){
+                current_elem.text(data.msg)
+            }
+        },
+    });
+}
+
+$(document).ready(function() {
+    $('#like_page_btn').click(function() {
+        var pageIDVar;
+        pageIDVar = $(this).attr('data-pageid');
+        add_like($(this),pageIDVar);
+    });
+});
+$(document).ready(function() {
+    $('#mark_page_btn').click(function() {
+        var pageIDVar;
+        pageIDVar = $(this).attr('data-pageid');
+
+        $.get('/rango/mark_page/',
+            {'page_id': pageIDVar},
+            function(data) {
+                $('#mark_page_num').html(data);
+                $('#mark_page_btn').hide();
+            })
+    });
+});
+</script>
+{% endblock %}
 {% block index_block %}
   {{page.title}}
 {% endblock %}
@@ -18,6 +92,19 @@
                 <div class="event-left-sidebar">
                     <div class="event-text">
                         <h3>{{ page.title }}</h3>
+                        {% if like %}
+                        <i class="iconfont icon-dianzan3" id="like_page_btn" data-pageid="{{ page.id }}"></i>
+                        {% else %}
+                        <i class="iconfont icon-zan" id="like_page_btn" data-pageid="{{ page.id }}">
+                        </i>
+                        {% endif %}
+                        {% if mark %}
+                        <i class="iconfont icon-shoucang6" id="mark_page_btn" data-pageid="{{ page.id }}">
+                        </i>
+                        {% else %}
+                        <i class="iconfont icon-shoucang5" id="mark_page_btn"  data-pageid="{{ page.id }}">
+                        </i>
+                        {% endif %}
                         <p>{{ page.description }}</p>
                     </div>
                 </div>
@@ -42,6 +129,7 @@
     <div class="container">
         <div class="section-title text-center mb-75">
             <h2>Share your opinion</h2>
+            <span class="iconfont icon-shoucan"></span>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -54,8 +142,6 @@
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <button class="submit" type="submit">Send Now</button>
-                                    <span class="iconfont icon-aixin"></span>
-                                    <img id ="collect" src="{% static 'images/collect.png' %}" alt="Picture of Collect" />
                                 </div>
                             </div>
                         </form>
@@ -66,6 +152,4 @@
         </div>
 </div>
 {% endif %}
-{% endblock %}
-{% block custom_js %}
 {% endblock %}

@@ -1,17 +1,18 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-About Rango
+About Us
+{% endblock %}
+{% block index_block %}
+About Us
 {% endblock %}
 {% block body_block %}
-    <h1>Rango says...</h1><br />
-    here is the about page.
-<div> 
-    hey there partner! <br /> <strong>{{ boldmessage }}</strong><br /> 
+<div class="grow-area pt-120 pb-90">
+    <div class="container">
+        <div class="section-title text-center mb-75">
+            <h2>Team BetterCoder</h2>
+            <p class="section-2">Striving to be a better coder</p>
+        </div>
+    </div>
 </div>
-Visits: {{ visits }}
-<div> 
-    <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
-    <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat" />
-</div> 
 {% endblock %}

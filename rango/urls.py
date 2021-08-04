@@ -16,4 +16,6 @@ urlpatterns = [
     path('logout/',views.user_logout,name='logout'),
     path('<slug:category_name_slug>/<slug:page_title_slug>',views.show_page,name='show_page'),
     path('<slug:category_name_slug>/<slug:page_title_slug>/add_comment/',views.add_comment,name='add_comment'),
+    path('like_page/', views.like_page, name="like_page"),
+    path('mark_page/',views.mark_page, name="mark_page"),
 ]

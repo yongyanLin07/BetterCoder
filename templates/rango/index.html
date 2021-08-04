@@ -24,7 +24,7 @@ Homepage
                 <div class="single-causes mb-30">
                     <a href="{% url 'rango:show_page' page.category.slug page.slug %}"><img src="" alt="Currently no picture" /></a>
                     <div class="causes-info">
-                        <h3><a href="">{{ page.title }}</a></h3>
+                        <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
                         <p>{{ page.description }}</p>
                         <div class="causes-meta">
                             <div class="doller-target f-left">
@@ -66,7 +66,7 @@ Homepage
                         <div class="blog-img">
                             <a href="{% url 'rango:show_category' category.slug %}"><img src="" alt="Currently no picture" /></a>
                             <div class="blog-icon">
-                                <a class="blog-link" href="blog.html">
+                                <a class="blog-link" href="{% url 'rango:show_category' category.slug %}">
                                     <img src="assets/img/icon-img/4.png" alt="">
                                 </a>
                             </div>
