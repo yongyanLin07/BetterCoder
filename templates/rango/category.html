@@ -19,14 +19,17 @@
     <div class="container">
         <div class="section-title text-center mb-75">
             <h2>What's {{ category.name }}</h2>
-            <p class="section-2">{{ category.description }}</p>
+            <p class="section-2">{{ category.description }}</p><br \>
+            {% if user.is_staff == 1 %}
+            <a class="stafflink" href="{% url 'rango:add_page' category.slug  %}">Hello Staff: {{user.username}}. Add News Here!</a>
+            {% endif %}          
         </div>
         <div class="row">
             {% if pages %}
             {% for page in pages %}
             <div class="col-md-6">
                 <div class="event-img-info mb-30">
-                    <img style="width: 570px;height: 300px;" src="{{ MEDIA_URL }}{{ page.image }}" alt="">
+                    <img src="{{ MEDIA_URL }}{{ page.image }}" alt="">
                     <div class="event-info">
                         <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
                         <div class="event-time-date">

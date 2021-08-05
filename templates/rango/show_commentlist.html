@@ -1,0 +1,94 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+Mark List
+{% endblock %}
+{% block ajax_block %}
+<script type="text/javascript">
+function comment_delete(current_elem, comment_id){
+    var status = confirm("Are you sure you want to delete this comment?");
+    if(!status){
+        return false;
+    }
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url:"{% url 'rango:deletecomment' %}",
+        data:{'comment_id':comment_id},
+        async: true,
+        beforeSend:function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(data) {
+            if(data.status == 'fail'){
+                if(data.msg == 'Please login'){
+                    window.location.href="{% url 'rango:login' %}";
+                }else{
+                    current_elem.text(data.msg)
+                }
+
+            }else if(data.status == 'success'){
+                current_elem.text(data.msg)
+                window.location.href="{% url 'rango:profile_page' %}";
+            }
+        },
+    });
+}
+$(document).ready(function() {
+    $('.delete').click(function() {
+        var commentIDVar;
+        commentIDVar = $(this).attr('data-commentid');
+        comment_delete($(this),commentIDVar);
+    });
+});
+</script>
+{% endblock %}
+{% block index_block %}
+{{ user.username }} Profile Page
+{% endblock %}
+{% block body_block %}
+<div class="profile_page">
+    <div class="profile_left f-left">
+        <div class="img-field f-left">
+            <img src="{{ MEDIA_URL }}{{ profile.picture }}" alt="Currently no picture"><br />
+            <span class="username-span">{{ user.username }}</span><br />
+            <span class="email-span">Email:{{ user.email }}</span>
+        </div>
+        <div class="upload-field f-left">
+            <strong><span>Update your information</span></strong>
+            <form class="profileForm" method="post" action="{% url 'rango:update_profile' %} " enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for hidden in user_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+                Username:<br /> <input type="text"  name="username"><br />
+                Email: <br /> <input type="text" name="email"><br />
+                Website:<br />
+                {{ profile_form.website }}<br />
+                Picture:<br />
+                {{ profile_form.picture }}
+                <input class="button theme-bg update_button" type="submit" value="Confirm" /> 
+            </form>
+        </div>
+    </div>
+    <div class="profile_right f-left">
+    <div class="alist"> 
+            <a href="{% url 'rango:marklist' %}">Mark List</a>
+            <a href="{% url 'rango:likelist' %}">Like List</a>
+            <a href="{% url 'rango:commentlist' %}">Comment List</a>
+    </div>
+    <div class="userList f-left">
+        {% if comments %}
+        <ul class="userul">
+        {% for comment in comments %}
+        <li><span>{{ comment.page.category }}</span>:<br /><span class="marktitle">{{ comment.page.title }}</span><br /><br />
+            <span class="markurl">{{ comment.content }}</span><br />
+        <a data-commentid="{{ comment.id }}" class="delete" href="">Delete</a>
+    </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    </div>
+</div>
+{% endblock %}

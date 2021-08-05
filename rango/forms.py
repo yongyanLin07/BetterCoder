@@ -7,8 +7,8 @@ from django.forms import fields
 from rango.models import Page,Category,Comment
 
 class CategoryForm(forms.ModelForm):
-    name = forms.CharField(max_length=Category.NAME_MAX_LENGTH,help_text="Please enter the category name.")
-    description = forms.CharField(max_length=Category.DESCRIPTION_MAX_LENGTH,help_text="Please enter the content of the category")
+    name = forms.CharField(max_length=Category.NAME_MAX_LENGTH)
+    description = forms.CharField(max_length=Category.DESCRIPTION_MAX_LENGTH)
     views = forms.IntegerField(widget=forms.HiddenInput,initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput,initial=0)
     slug = forms.CharField(widget=forms.HiddenInput,required=False)
@@ -24,12 +24,12 @@ class PageForm(forms.ModelForm):
             url = f'http://{url}'
             cleaned_data['url'] = url
         return cleaned_data
-    title = forms.CharField(max_length=Page.TITLE_MAX_LENGTH,help_text="Please enter the title of the page.")
-    url = forms.URLField(max_length=Page.URL_MAX_LENGTH,help_text="Please enter the URL of the page.")
+    title = forms.CharField(max_length=Page.TITLE_MAX_LENGTH)
+    url = forms.URLField(max_length=Page.URL_MAX_LENGTH)
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0) 
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     comments = forms.IntegerField(widget=forms.HiddenInput,initial=0)
-    description = forms.CharField(max_length=Page.DESCRIPTION_MAX_LENGTH,help_text="Please enter the description of this news.")
+    description = forms.CharField(widget=forms.Textarea,max_length=Page.DESCRIPTION_MAX_LENGTH)
     class Meta:
         model = Page
         fields = ('title','url','description','image',)

@@ -1,9 +1,10 @@
+import random
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','tango_with_django_project.settings')
 import django
 django.setup()
-from rango.models import Category,Page
-
+from rango.models import Category,Page,UserProfile,Comment,Like,Mark
+from django.contrib.auth.models import User
 def populate():
     business_pages = [
         {'title': 'Vanguard: Investment giant to pay vaccinated workers $1,000','url':'https://www.bbc.co.uk/news/business-58091534','views': 90,'likes':30,'marks':21,
@@ -45,6 +46,23 @@ def populate():
     'Sport': {'pages': sport_pages,'views' : 310, 'likes' : 192,'description':'Provide the fastest, most comprehensive and professional sports news and event reports.',
     'image':'category_images/sport.jpg'}
     }
+    users = [{'username':'writer','password':12345,'is_staff':1,'email':'2529594L@student.gla.ac.uk'},
+    {'username':'jackson','password':12345,'is_staff':0,'email':'2529594L@student.gla.ac.uk'},
+    {'username':'amy','password':12345,'is_staff':0,'email':'764515289@qq.com'}]
+    comments = ['Nice news!','I will share it with my family.','This news is memorable.','Thanks for sharing.','Good News!']
+    profiles_images = ['profile_images/photo1.jpg','profile_images/photo2.jpg','profile_images/photo3.jpg','profile_images/photo4.jpg']
+
+    def add_user(username,password,is_staff,email):
+        user = User.objects.get_or_create(username=username)[0]
+        user.set_password(password)
+        user.is_staff = is_staff
+        user.email = email
+        user.save()
+        userProfile = UserProfile.objects.get_or_create(user=user)[0]
+        i = random.randint(0,len(profiles_images)-1)
+        userProfile.picture = profiles_images[i]
+        userProfile.save()
+        return user 
 
     def add_page(cat,title,url,views,likes,description,marks,image):
         p = Page.objects.get_or_create(category=cat, title=title)[0] 
@@ -56,6 +74,7 @@ def populate():
         p.image = image
         p.save()
         return p
+
     def add_cat(name,views,likes,description,image):
         c = Category.objects.get_or_create(name = name)[0]
         c.views = views
@@ -63,7 +82,8 @@ def populate():
         c.description = description
         c.image = image
         c.save()
-        return c
+        return c 
+
     for cat, cat_data in cats.items(): 
         c = add_cat(cat,cat_data['views'],cat_data['likes'],cat_data['description'],cat_data['image']) 
         for p in cat_data['pages']: 
@@ -72,7 +92,33 @@ def populate():
     for c in Category.objects.all(): 
         for p in Page.objects.filter(category=c): 
             print(f'- {c}: {p}') 
-
+    for u in users:
+        add_user(u['username'],u['password'],u['is_staff'],u['email'])
+    def add_comment():
+        for i in range(10):
+            page_id = random.randint(1,9)
+            user_id = random.randint(1,3)
+            comment_id = random.randint(0,4)
+            c = Comment.objects.get_or_create(page_id = page_id,user_id = user_id,content = comments[comment_id])[0]
+            c.save()
+        return 'success'
+    def add_like():
+        for i in range(10):
+            page_id = random.randint(1,9)
+            user_id = random.randint(1,3)
+            l = Like.objects.get_or_create(page_id = page_id,user_id = user_id)[0]
+            l.save()
+        return 'success'
+    def add_mark():
+        for i in range(10):
+            page_id = random.randint(1,9)
+            user_id = random.randint(1,3)
+            m = Mark.objects.get_or_create(page_id = page_id,user_id = user_id)[0]
+            m.save()
+        return 'success'
+    add_comment()
+    add_like()
+    add_mark()
 if __name__ == '__main__':
     print("Starting Rango population script...")
     populate()  

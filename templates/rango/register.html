@@ -4,31 +4,44 @@
 {% block title_block %}
    Register
 {% endblock %}
-
+{% block index_block %}
+Create a Account
+{% endblock %}
 {% block body_block %}
-<link rel="stylesheet" type="text/css" href="/static/css/register.css">
 <div class="register">
     <br />
     <h1>Register Now</h1><br /><br />
-    {% if registered %}
-    Please <strong>thank you for registering!</strong>
-    <a href="{%url 'rango:index' %}">Return to the homepage.</a>
-    {% else %}
-    Rango says: <strong>register here!</strong><br />
+{% if registered %}
+    <h4><strong>Thank you for registering!</strong></h4><br />
+    <a class="register-return" href="{%url 'rango:index' %}">Return to the homepage.</a>
+{% else %}
 </div>
 
 <div class="user">
-    <form id="user_form" method="post" action="{% url 'rango:register' %}" enctype="multipart/form-data">
+    <form id="user-form" method="post" action="{% url 'rango:register' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ user_form.as_p }}<br />
-        {{ profile_form.as_p }}<br />
-        <input type="submit" name="submit" value="Register" />
+        <div class="field">
+            <label>Username:</label>
+            {{ user_form.username }}
+        </div>
+        <div class="field">
+            <label>Password:</label>
+            {{ user_form.password }}
+        </div>
+        <div class="field">
+            <label>Email:</label>
+            {{ user_form.email }}
+        </div>
+        <div class="field">
+            <label>Website:</label>
+            {{ profile_form.website }}
+        </div>
+        <div class="field">
+            <label>Picture:</label>
+            {{ profile_form.picture }}
+        </div>
+        <input class="button theme-bg user-form-button" type="submit" name="submit" value="Register" />
     </form>
-</div>
-    
-
-<div class="register_bgimg">
-    <img src="{% static 'images/Register.jpg' %}" alt="Register" width="100%" height="100%"/>
 </div>
 {% endif %}
 {% endblock %}

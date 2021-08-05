@@ -13,7 +13,7 @@ Homepage
         <div class="section-title text-center mb-75">
             <h2>Most Viewed News</h2>
             <div class="icon-img">
-                <img src="{% static 'images/NewsLogo.jpg' %}" style="height: 40px; width: 40px;" alt="">
+                <img class="iconimg" src="{% static 'images/NewsLogo.jpg' %}" alt="">
             </div>
             <p>Our most viewed news</p>
         </div>
@@ -62,9 +62,9 @@ Homepage
             <div class="row">
                 {% for category in categories %}
                 <div class="col-md-4 col-sm-4">
-                    <div class="single-blog mb-30">
+                    <div class="single-blog mb-30" id = "blogs">
                         <div class="blog-img">
-                            <a href="{% url 'rango:show_category' category.slug %}"><img style="width: 371px;height: 200px;" src="{{ MEDIA_URL }}{{ category.image }}" alt="Currently no picture" /></a>
+                            <a href="{% url 'rango:show_category' category.slug %}"><img class="viewsimg" src="{{ MEDIA_URL }}{{ category.image }}" alt="Currently no picture" /></a>
                             <div class="blog-icon">
                                 <a class="blog-link" href="{% url 'rango:show_category' category.slug %}">
                                     <img src="assets/img/icon-img/4.png" alt="">
@@ -72,7 +72,9 @@ Homepage
                             </div>
                         </div>
                         <div class="blog-info">
-                            <span style="overflow: hidden;">{{ category.description }}</span>
+                          <div class="category-des"> 
+                            <span>{{ category.description }}</span>
+                          </div>                         
                             <h3><a href="{% url 'rango:show_category' category.slug %}">{{ category.title }}</a></h3>
                             <a href="{% url 'rango:show_category' category.slug %}">Read More </a>
                             <div class="doller-target f-right">

@@ -1,0 +1,41 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+User Profile
+{% endblock %}
+{% block index_block %}
+{{ user.username }} Profile Page
+{% endblock %}
+{% block body_block %}
+<div class="profile_page">
+    <div class="profile_left f-left">
+        <div class="img-field f-left">
+            <img src="{{ MEDIA_URL }}{{ profile.picture }}" alt="Currently no picture"><br />
+            <span class="username-span">{{ user.username }}</span><br />
+            <span class="email-span">Email:{{ user.email }}</span>
+        </div>
+        <div class="upload-field f-left">
+            <strong><span>Update your information</span></strong>
+            <form class="profileForm" method="post" action="{% url 'rango:update_profile' %} " enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for hidden in user_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+                Username:<br /> <input type="text"  name="username"><br />
+                Email: <br /> <input type="text" name="email"><br />
+                Website:<br />
+                {{ profile_form.website }}<br />
+                Picture:<br />
+                {{ profile_form.picture }}
+                <input class="button theme-bg update_button" type="submit" value="Confirm" /> 
+            </form>
+        </div>
+    </div>
+    <div class="profile_right f-left">
+    <div class="alist"> 
+        <a href="{% url 'rango:marklist' %}">Mark List</a>
+        <a href="{% url 'rango:likelist' %}">Like List</a>
+        <a href="{% url 'rango:commentlist' %}">Comment List</a>
+    </div>
+</div>
+{% endblock %}

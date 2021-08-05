@@ -11,12 +11,12 @@
             {% endblock %}
         </title>  
         <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>    
-        <script type="text/javascript" src="{% static 'css/bootstrap.min.css' %}"></script>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/bundle.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/pageDetails.css' %}">
         <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_2723093_n809ng3kbkr.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/userforms.css">
         {% block ajax_block %}
         
         {% endblock %}
@@ -35,15 +35,19 @@
                         <div class="main-menu f-left">
                             <nav>
                                 <ul>
+                                    {% if user.is_staff == 1 or user.is_superuser == 1 %}
+                                    <li><a href="{% url 'rango:add_category' %}">Add Category</a></li>
+                                    {% endif %}
                                     <li><a href="{% url 'rango:index' %}">Home</a></li>
                                     <li><a href="{% url 'rango:about' %}">About US</a></li>
                                     {% get_category_list category %}
                                     {% if user.is_authenticated %} 
-                                    <li><a href="#">{{ user.username }}</a></li>
+                                    <li><a href="{% url 'rango:profile_page' %}">{{ user.username }}</a></li>
                                     <li><a href="{% url 'rango:logout' %}">Logout</a></li> 
                                     {% else %}
                                     <li><a href="{% url 'rango:login' %}">Login</a></li> 
                                     {% endif %}
+
                                 </ul>
                             </nav>
                         </div>
@@ -52,9 +56,9 @@
             </div>
     </header>
     <div class="slider-area">
-        <div class="breadcrumb-area pt-240 pb-125" style="background-image: url('/static/images/NewsTitle.jpg')" data-overlay="5">
+        <div class="newstitle-area pt-240 pb-125" style="background-image: url('/static/images/NewsTitle.jpg')" data-overlay="5">
             <div class="container">
-                <div class="breadcrumb-text text-center z-index">
+                <div class="newstitle-text text-center z-index">
                     <h2>
                         {% block index_block %}
                            Welcome to News World

@@ -1,3 +1,5 @@
+from threading import current_thread
+from django.contrib.auth.models import User
 from django.db.models import query
 from django.http.response import FileResponse
 from rango.forms import CategoryForm
@@ -7,7 +9,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from rango.models import Category
 from rango.models import Page
-from rango.models import Comment,Like,Mark
+from rango.models import Comment,Like,Mark,UserProfile
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -295,4 +297,109 @@ def mark_page(request):
         context_dict['mark'] = mark
 
     return redirect(reverse('rango:show_page', kwargs={'category_name_slug': category.slug,'page_title_slug':page.slug}))
+@login_required
+def profile(request):
+    profile_form = UserProfileForm()
+    current_user = request.user
+    profile = UserProfile.objects.get(user= current_user)
+    context_dict = {}
+    context_dict['profile'] = profile
+    context_dict['profile_form'] = profile_form
+    return render(request,'rango/profile.html',context = context_dict)
+
+@login_required
+def update_profile(request):
+    current_user = request.user
+    context_dict = {}
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        profile_form = UserProfileForm(request.POST)
+        current_user.email = email
+        current_user.username = username
+        current_user.save(update_fields=['email','username'])
+        if profile_form.is_valid():
+            old_profile = UserProfile.objects.filter(user = current_user)
+            old_profile.delete()
+            new_profile = profile_form.save(commit=False)
+            new_profile.user = current_user
+            if 'picture' in request.FILES:
+                new_profile.picture = request.FILES['picture']
+            new_profile.save()
+            context_dict['profile'] = new_profile
+            profile_form = UserProfileForm()
+            context_dict['profile_form'] = profile_form
+        return render(request,'rango/profile.html',context = context_dict) 
+    profile = UserProfile.objects.get(user= current_user)
+    profile_form = UserProfileForm()
+    context_dict['profile'] = profile
+    context_dict['profile_form'] = profile_form
+    return render(request,'rango/profile.html',context = context_dict)
+@login_required
+def marklist(request):
+    current_user = request.user
+    context_dict = {}
+    marks = Mark.objects.filter(user = current_user)
+    context_dict['marks'] = marks
+    profile_form = UserProfileForm()
+    profile = UserProfile.objects.get(user= current_user)
+    context_dict['profile_form'] = profile_form
+    context_dict['profile'] = profile
+    return render(request,'rango/show_marklist.html',context = context_dict)
+@login_required
+def likelist(request):
+    current_user = request.user
+    context_dict = {}
+    likes = Like.objects.filter(user = current_user)
+    context_dict['likes'] = likes
+    profile_form = UserProfileForm()
+    profile = UserProfile.objects.get(user= current_user)
+    context_dict['profile_form'] = profile_form
+    context_dict['profile'] = profile
+    return render(request,'rango/show_likelist.html',context = context_dict)
+@login_required
+def commentlist(request):
+    current_user = request.user
+    context_dict = {}
+    comments = Comment.objects.filter(user = current_user)
+    context_dict['comments'] = comments
+    profile_form = UserProfileForm()
+    profile = UserProfile.objects.get(user= current_user)
+    context_dict['profile_form'] = profile_form
+    context_dict['profile'] = profile
+    return render(request,'rango/show_commentlist.html',context = context_dict)
+@login_required
+def deletecomment(request):
+    comment_id = request.POST.get('comment_id', 0)
+    print(comment_id)
+    comment = Comment.objects.get(id = comment_id)
+    page = comment.page
+    page.comments -= 1
+    page.save(update_fields=['comments'])
+    comment.delete()
+    return redirect(reverse('rango:profile_page'))
+
+@login_required
+def deletelike(request):
+    like_id = request.POST.get('like_id', 0)
+    like = Like.objects.get(id = like_id)
+    page = like.page
+    page.likes -= 1
+    page.save(update_fields=['likes'])
+    category = page.category
+    category.likes -=1
+    category.save(update_fields=['likes'])
+    like.delete()
+    return redirect(reverse('rango:profile_page'))
+
+@login_required
+def deletemark(request):
+    mark_id = request.POST.get('mark_id', 0)
+    mark = Mark.objects.get(id = mark_id)
+    page = mark.page
+    page.marks -= 1
+    page.save(update_fields=['marks'])
+    mark.delete()
+    return redirect(reverse('rango:profile_page'))
+
 
