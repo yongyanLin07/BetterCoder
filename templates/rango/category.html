@@ -26,13 +26,14 @@
             {% for page in pages %}
             <div class="col-md-6">
                 <div class="event-img-info mb-30">
-                    <img src="{{ MEDIA_URL }}cat.jpg" alt="">
+                    <img style="width: 570px;height: 300px;" src="{{ MEDIA_URL }}{{ page.image }}" alt="">
                     <div class="event-info">
                         <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
                         <div class="event-time-date">
                             <span>Likes: {{ page.likes }}</span>
                             <span>Views: {{ page.views }}</span>
                             <span>Comments: {{ page.comments }}</span>
+                            <span>Marks: {{ page.marks }}</span>
                         </div>
                     </div>
                 </div>

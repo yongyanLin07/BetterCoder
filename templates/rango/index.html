@@ -22,10 +22,10 @@ Homepage
             {% for page in pages %}
             <div class="col-md-4 col-sm-4">
                 <div class="single-causes mb-30">
-                    <a href="{% url 'rango:show_page' page.category.slug page.slug %}"><img src="" alt="Currently no picture" /></a>
+                    <a href="{% url 'rango:show_page' page.category.slug page.slug %}"><img src="{{ MEDIA_URL }}{{ page.image }}" alt="Currently no picture" /></a>
                     <div class="causes-info">
                         <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
-                        <p>{{ page.description }}</p>
+                        <p style="overflow: hidden;">{{ page.description }}</p>
                         <div class="causes-meta">
                             <div class="doller-target f-left">
                                 <h4>Views : <span>{{ page.views }}</span></h4>
@@ -64,7 +64,7 @@ Homepage
                 <div class="col-md-4 col-sm-4">
                     <div class="single-blog mb-30">
                         <div class="blog-img">
-                            <a href="{% url 'rango:show_category' category.slug %}"><img src="" alt="Currently no picture" /></a>
+                            <a href="{% url 'rango:show_category' category.slug %}"><img style="width: 371px;height: 200px;" src="{{ MEDIA_URL }}{{ category.image }}" alt="Currently no picture" /></a>
                             <div class="blog-icon">
                                 <a class="blog-link" href="{% url 'rango:show_category' category.slug %}">
                                     <img src="assets/img/icon-img/4.png" alt="">
@@ -72,8 +72,8 @@ Homepage
                             </div>
                         </div>
                         <div class="blog-info">
-                            <span>{{ category.description }}</span>
-                            <h3><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></h3>
+                            <span style="overflow: hidden;">{{ category.description }}</span>
+                            <h3><a href="{% url 'rango:show_category' category.slug %}">{{ category.title }}</a></h3>
                             <a href="{% url 'rango:show_category' category.slug %}">Read More </a>
                             <div class="doller-target f-right">
                                 <h4>Likes : <span>{{ category.likes }}</span></h4>
