@@ -15,11 +15,12 @@
    {% endif %}
 {% endblock %}
 {% block body_block %}
-<div class="volunter-area pt-120 pb-90">
+<div class="newspage-area">
     <div class="container">
-        <div class="section-title text-center mb-75">
+        <div class="section-title text-center">
             <h2>What's {{ category.name }}</h2>
-            <p class="section-2">{{ category.description }}</p><br \>
+            <p>{{ category.description }}</p><br \>
+            <!--only user with attribute is_staff = 1 can see this link-->
             {% if user.is_staff == 1 %}
             <a class="stafflink" href="{% url 'rango:add_page' category.slug  %}">Hello Staff: {{user.username}}. Add News Here!</a>
             {% endif %}          
@@ -28,11 +29,13 @@
             {% if pages %}
             {% for page in pages %}
             <div class="col-md-6">
-                <div class="event-img-info mb-30">
+                <div class="newspage-img-info">
                     <img src="{{ MEDIA_URL }}{{ page.image }}" alt="">
-                    <div class="event-info">
-                        <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
-                        <div class="event-time-date">
+                    <div class="newspage-info">
+                        <div class="newspage-title">
+                            <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
+                        </div>
+                        <div class="newspage-time-date">
                             <span>Likes: {{ page.likes }}</span>
                             <span>Views: {{ page.views }}</span>
                             <span>Comments: {{ page.comments }}</span>

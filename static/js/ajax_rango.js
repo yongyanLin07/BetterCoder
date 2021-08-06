@@ -1,3 +1,4 @@
+/* In order to get csrftoken in js file */
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -12,7 +13,9 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+/* get the csrf token */
 var csrftoken = getCookie('csrftoken');
+/* using ajax to delete the mark/comment/like if the user want */
 function deleteList(current_elem, id){
     var status = confirm("Are you sure you want to delete it?");
     if(!status){
@@ -42,6 +45,7 @@ function deleteList(current_elem, id){
         },
     });
 }
+/* using ajax to like/mark the news if the user want */
 function change(current_elem, page_id){
     $.ajax({
         cache: false,
@@ -66,28 +70,34 @@ function change(current_elem, page_id){
         },
     });
 }
+
 $(document).ready(function() {
+    /* call deleteList function by clicking the delete link */
     $('.delete').click(function() {
         var ID;
         ID = $(this).attr('data-id');
         deleteList($(this),ID);
     });
+    /* call change function by clicking the thumb-up icon */
     $('#like_page_btn').click(function() {
         var pageIDVar;
         var i = $(this).attr("class");
         pageIDVar = $(this).attr('data-pageid');
         change($(this),pageIDVar);
+        /* change the format of thumb-up icon */
         if(i == "iconfont icon-dianzan1"){
             $(this).attr("class","iconfont icon-dianzan");
         }else{
             $(this).attr("class","iconfont icon-dianzan1");
         }
     });
+    /* call change function by clicking the thumb-up icon */
     $('#mark_page_btn').click(function() {
         var pageIDVar;
         var i = $(this).attr("class");
         pageIDVar = $(this).attr('data-pageid');
         change($(this),pageIDVar);
+        /* change the format of star icon */
         if(i == "iconfont icon-shoucang6"){
             $(this).attr("class","iconfont icon-shoucang5");
         }else{

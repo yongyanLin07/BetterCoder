@@ -17,10 +17,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
 LOGIN_URL = 'rango:login'
 LOGOUT_URL = 'rango:logout'
 LOGIN_REDIRECT_URL = 'rango:index'
 
+#adding github secret key
 SOCIAL_AUTH_GITHUB_KEY = '96381667a11db620da70'
 SOCIAL_AUTH_GITHUB_SECRET = '82bf9c911e1f976be0163a52cb75cddbc9a3254c'
 # Quick-start development settings - unsuitable for production
@@ -36,7 +38,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+#adding github authentication 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -75,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media', 
+                #adding social_django 
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],

@@ -14,12 +14,12 @@
   {{page.title}}
 {% endblock %}
 {% block body_block %}
-<div class="event-all-area ptb-100">
+<div class="news-detail-area">
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="event-left-sidebar">
-                    <div class="event-text">
+                <div class="newsdetail-left-sidebar">
+                    <div class="newsdetail-text">
                         <h3>{{ page.title }}</h3><br/>
                         Like:&nbsp&nbsp
                         {% if like %}
@@ -58,17 +58,17 @@
 </ul>
 {% endif %}
 {% if user.is_authenticated %}
-<div class="become-volunter-area gray-bg ptb-100">
+<div class="comment-section">
     <div class="container">
-        <div class="section-title text-center mb-75">
+        <div class="section-title text-center">
             <h2>Share your opinion</h2>
             <span class="iconfont icon-shoucan"></span>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="contact-title-form">
-                    <div class="leave-form">
-                        <form id="add_comment_form" method="post" action="{% url 'rango:add_comment' category.slug page.slug %} ">
+                <div class="comment-form">
+                    <div class="comment-form">
+                        <form id="add_comment_form" method="post" action="{% url 'rango:add_comment' page.category.slug page.slug %} ">
                             {% csrf_token %}   
                                 <div class="col-md-12">
                                     {{ form.content }}
@@ -78,11 +78,11 @@
                                 </div>
                             </div>
                         </form>
-                        <p class="form-messege"></p>
                     </div>
                 </div>
             </div>
         </div>
 </div>
+
 {% endif %}
 {% endblock %}

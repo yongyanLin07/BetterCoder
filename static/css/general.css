@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto+Slab:400,700');
+/* define general format for some items */
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+	color:#686868;
+}
+.img{
+    max-width: 100%;
+    transition: all 0.3s ease-out 0s;
+}
+a,
+.btn {
+    -webkit-transition: all 0.3s ease-out 0s;
+    -moz-transition: all 0.3s ease-out 0s;
+    -ms-transition: all 0.3s ease-out 0s;
+    -o-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+.btn {
+    border-radius: 0px;
+    font-size: 14px;
+    padding: 0px 15px;
+    height: 30px;
+    line-height: 30px;
+}
+a:focus,
+.btn:focus {
+    text-decoration: none;
+    outline: none;
+}
+a:focus, a:hover {
+  color: #f8b864;
+  text-decoration: none;
+}
+a.button:focus, a.button:hover {
+  color: #fff;
+  text-decoration: none;
+}
+a,
+button,
+input {
+    outline: medium none;
+    color: #686868;
+}
+.uppercase { 
+    text-transform: uppercase
+}
+.capitalize { 
+    text-transform: capitalize
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: normal;
+    color: #555;
+    margin-top: 0px;
+    font-style: normal;
+    font-weight: 400;
+}
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a { 
+    color: inherit 
+}
+h1 {
+    font-size: 46px;
+    font-weight: 500;
+}
+h2 {
+    font-size: 37px;
+}
+h3 {
+    font-size: 28px;
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+li { list-style: none }
+p {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 24px;
+    color: #777777;
+    margin-bottom: 15px;
+}
+p:last-child {
+  margin-bottom: 0px;
+}
+
+.f-left {
+    float: left
+}
+.f-right {
+    float: right
+}
+/* black overlay */
+[data-overlay] {
+  position: relative;
+} 
+[data-overlay]::before {
+  background: #000 none repeat scroll 0 0;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+[data-overlay="5"]::before {
+  opacity: 0.5;
+}
+
+.z-index{
+    position:relative;
+    z-index:9}
+/* define a general button */
+.button {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 50px;
+    box-shadow: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    padding: 12px 30px;
+    position: relative;
+    text-transform: capitalize;
+}
+.button:hover{color:#fff}
+.theme-bg { background: #f8b864; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

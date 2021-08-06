@@ -11,9 +11,8 @@
         </title>  
         <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>    
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/bundle.css' %}">
+        <link rel="stylesheet" href="{% static 'css/general.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'css/pageDetails.css' %}">
         <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_2723093_n809ng3kbkr.css">
         <link rel="stylesheet" type="text/css" href="/static/css/userforms.css">
         {% block ajax_block %}
@@ -27,13 +26,14 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-3">
                         <div class="logo">
-                            <a href="index.html"><img src="{% static 'images/NewsLogo.jpg' %}" style="height: 40px; width: 40px;" alt="" /></a>
+                            <a href="index.html"><img src="{% static 'images/NewsLogo.jpg' %}" alt="" /></a>
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-9 hidden-xs">
                         <div class="main-menu f-left">
                             <nav>
                                 <ul>
+                                    <!--only user whose is_staff attribute is 1 can see this link-->
                                     {% if user.is_staff == 1 or user.is_superuser == 1 %}
                                     <li><a href="{% url 'rango:add_category' %}">Add Category</a></li>
                                     {% endif %}
@@ -72,7 +72,7 @@
         {% endblock %} 
     </div>
     
-    <footer class="footer-area pt-120 black-bg">
+    <footer class="footer-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">

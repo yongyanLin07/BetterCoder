@@ -8,7 +8,7 @@ Homepage
 {% endblock %}
 
 {% block body_block %}
-<div class="causes-area pt-120 pb-90">
+<div class="viewednews-area">
     <div class="container">
         <div class="section-title text-center mb-75">
             <h2>Most Viewed News</h2>
@@ -21,21 +21,25 @@ Homepage
             {% if pages %}
             {% for page in pages %}
             <div class="col-md-4 col-sm-4">
-                <div class="single-causes mb-30">
+                <div class="viewednews-section">
                     <a href="{% url 'rango:show_page' page.category.slug page.slug %}"><img src="{{ MEDIA_URL }}{{ page.image }}" alt="Currently no picture" /></a>
-                    <div class="causes-info">
-                        <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
-                        <p style="overflow: hidden;">{{ page.description }}</p>
-                        <div class="causes-meta">
-                            <div class="doller-target f-left">
+                    <div class="viewednews-info">
+                        <div class="viewednews-title">
+                            <h3><a href="{% url 'rango:show_page' page.category.slug page.slug %}">{{ page.title }}</a></h3>
+                        </div>
+                        <div class="viewednews-des">
+                            <p>{{ page.description }}</p>
+                        </div>
+                        <div class="viewednews-meta">
+                            <div class="information-target f-left">
                                 <h4>Views : <span>{{ page.views }}</span></h4>
                             </div>
-                            <div class="doller-target f-right">
+                            <div class="information-target f-right">
                                 <h4>Likes : <span>{{ page.likes }}</span></h4>
                             </div>
                         </div>
-                        <div class="causes-meta">
-                            <div class="doller-target f-left">
+                        <div class="viewednews-meta">
+                            <div class="information-target f-left">
                                 <h4>Comments : <span>{{ page.comments }}</span></h4>
                             </div>
                         </div>
@@ -48,12 +52,12 @@ Homepage
         </div>
     </div>
 </div>
-<div class="blog-area pt-120 pb-90">
+<div class="blog-area">
     <div class="container">
-        <div class="section-title text-center mb-75">
+        <div class="section-title text-center">
             <h2>Most Liked Categories</h2>
             <div class="icon-img">
-                <img src="{% static 'images/NewsLogo.jpg' %}" style="height: 40px; width: 40px;" alt="">
+                <img src="{% static 'images/NewsLogo.jpg' %}" alt="">
             </div>
             <p>Our most liked categories</p>
         </div>
@@ -62,22 +66,17 @@ Homepage
             <div class="row">
                 {% for category in categories %}
                 <div class="col-md-4 col-sm-4">
-                    <div class="single-blog mb-30" id = "blogs">
+                    <div class="single-blog" id = "blogs">
                         <div class="blog-img">
-                            <a href="{% url 'rango:show_category' category.slug %}"><img class="viewsimg" src="{{ MEDIA_URL }}{{ category.image }}" alt="Currently no picture" /></a>
-                            <div class="blog-icon">
-                                <a class="blog-link" href="{% url 'rango:show_category' category.slug %}">
-                                    <img src="assets/img/icon-img/4.png" alt="">
-                                </a>
-                            </div>
+                            <a href="{% url 'rango:show_category' category.slug %}"><img src="{{ MEDIA_URL }}{{ category.image }}" alt="Currently no picture" /></a>
                         </div>
                         <div class="blog-info">
                           <div class="category-des"> 
-                            <span>{{ category.description }}</span>
+                            <span><h3>{{ category.name }}</h3>{{ category.description }}</span>
                           </div>                         
                             <h3><a href="{% url 'rango:show_category' category.slug %}">{{ category.title }}</a></h3>
                             <a href="{% url 'rango:show_category' category.slug %}">Read More </a>
-                            <div class="doller-target f-right">
+                            <div class="information-target f-right">
                                 <h4>Likes : <span>{{ category.likes }}</span></h4>
                             </div>
                         </div>
