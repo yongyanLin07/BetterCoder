@@ -12,13 +12,13 @@ Login
         <h1>Login</h1><br />
         <form id="user-form" method="post" action="{% url 'rango:login' %}"> 
             {% csrf_token %} 
-            <span>Username:</span> <input type="text" name="username" value="" /> <br /><br /> 
-            <span>Password:</span> <input type="password" name="password" value="" /> <br /><br />
+            <span>Username:</span><input type="text" name="username" value="" /><br /><br /> 
+            <span>Password:</span><input type="password" name="password" value="" /><br /><br />
             <input class="button theme-bg login-button" type="submit" value="Login" /> 
         </form> 
         <br />
         <br />
-        <span class="suggestion">Login with github account:</span>
+        <span class="suggestion">Login with github account:</span><br />
         <a class="git-link" href="{% url 'social:begin' 'github' %}"><i class="iconfont icon-GitHub"></i></a><br /><br />
         <!--define third-party login-->
         <a class="toregister" href="{% url 'rango:register' %}">Register a Account</a>

@@ -19,7 +19,7 @@
     margin: 0 auto; 
     margin-bottom: 200px; 
     top: 0px; 
-    width: 320px; 
+    width: 300px; 
     height: 420px;
     border:2px solid slategray;
     border-radius: 20px;
@@ -35,14 +35,16 @@ h4{
     color:slategray;
     font-family: serif;
 }
+
 #user-form{
+    width: 300px;
+    height: 200px;
     margin-left: 20px;
 }
+
 #user-form input{
     font-size: 20px;
-    margin: 0 auto;
     border-radius: 30px;
-
 }
 #user-form span{
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -62,26 +64,23 @@ h4{
     background: white;
 }
 .login-button{
-    position: relative;
-    top: 20px;
-    left: 70px;
+    margin-left: 54px;
 }
 .suggestion{
     font-size: 12px;
     font-family: fantasy;
 }
 .git-link{
-    position: relative;
-    top: 20px;
-    left: 10px;
+    margin-left: 130px;
 }
 .toregister{
     font-size: 15px;
     font-family: sans-serif;
-    color:aqua;
-    position: relative;
-    top: 10px;
-    left: 80px;
+    color:rgb(235, 199, 38);
+    margin-left: 70px;
+}
+.toregister:hover{
+    color: blue;
 }
 .addC{
     position: relative;
