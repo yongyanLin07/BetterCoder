@@ -81,10 +81,10 @@ $(document).ready(function() {
         {% if likes %}
         <ul class="userul">
         {% for like in likes %}
-        <li><span>{{ like.page.category }}</span>:<br /><span class="marktitle">{{ like.page.title }}</span><br />
+        <li><span class="markcat">{{ like.page.category }}</span>:<br /><span class="marktitle">{{ like.page.title }}</span><br />
             <span class="markurl">{{ like.page.url }}</span>
-        <span data-likeid="{{ like.id }}" class="delete">Delete</span>
-    </li>
+        <a data-likeid="{{ like.id }}" class="delete" href="">Delete</a>
+        </li>
         {% endfor %}
         </ul>
         {% endif %}

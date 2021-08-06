@@ -98,13 +98,15 @@ $(document).ready(function() {
             <div class="col-md-8">
                 <div class="event-left-sidebar">
                     <div class="event-text">
-                        <h3>{{ page.title }}</h3>
+                        <h3>{{ page.title }}</h3><br/>
+                        Like:
                         {% if like %}
                         <i class="iconfont icon-dianzan3" id="like_page_btn" data-pageid="{{ page.id }}"></i>
                         {% else %}
                         <i class="iconfont icon-zan" id="like_page_btn" data-pageid="{{ page.id }}">
                         </i>
                         {% endif %}
+                        Mark:
                         {% if mark %}
                         <i class="iconfont icon-shoucang6" id="mark_page_btn" data-pageid="{{ page.id }}">
                         </i>
@@ -112,6 +114,7 @@ $(document).ready(function() {
                         <i class="iconfont icon-shoucang5" id="mark_page_btn"  data-pageid="{{ page.id }}">
                         </i>
                         {% endif %}
+                        <br/><br/>
                         <p>{{ page.description }}</p><br \>
                         <a id = "eventlink" href="{{ page.url }}">Go to the original link!</a>
                     </div>

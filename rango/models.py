@@ -65,7 +65,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     page = models.ForeignKey(Page,on_delete=models.CASCADE)
 
-class Like(models.Model): # without registration in rango/admin.py
+class Like(models.Model):
     time = models.DateField(auto_now=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     page = models.ForeignKey(Page,on_delete=models.CASCADE)

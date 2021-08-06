@@ -1,7 +1,5 @@
 from threading import current_thread
 from django.contrib.auth.models import User
-from django.db.models import query
-from django.http.response import FileResponse
 from rango.forms import CategoryForm
 from rango.forms import PageForm
 from rango.forms import UserForm,UserProfileForm,CommentForm
@@ -16,7 +14,6 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
 def index(request): 
-    #chapter2 url = "<a href='/rango/about'>About</a>"
     category_list = Category.objects.order_by('-likes')[:3]
     context_dict = {} 
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!' 
@@ -300,10 +297,14 @@ def mark_page(request):
 @login_required
 def profile(request):
     profile_form = UserProfileForm()
-    current_user = request.user
-    profile = UserProfile.objects.get(user= current_user)
     context_dict = {}
-    context_dict['profile'] = profile
+    current_user = request.user
+    try:
+        profile = UserProfile.objects.get(user = current_user)
+        context_dict['profile'] = profile
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.get_or_create(user = current_user)
+        context_dict['profile'] = profile
     context_dict['profile_form'] = profile_form
     return render(request,'rango/profile.html',context = context_dict)
 
@@ -313,6 +314,8 @@ def update_profile(request):
     context_dict = {}
     if request.method == 'POST':
         username = request.POST.get('username')
+        if username == "":
+           return redirect(reverse('rango:profile_page'))
         email = request.POST.get('email')
         profile_form = UserProfileForm(request.POST)
         current_user.email = email
