@@ -8,85 +8,7 @@
     {% endif %}
 {% endblock %}
 {% block ajax_block %}
-<script type="text/javascript">
-function add_like(current_elem, page_id){
-    $.ajax({
-        cache: false,
-        type: "POST",
-        url:"{% url 'rango:like_page' %}",
-        data:{'page_id':page_id},
-        async: true,
-        beforeSend:function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
-        },
-        success: function(data) {
-            if(data.status == 'fail'){
-                if(data.msg == 'Please login'){
-                    window.location.href="{% url 'rango:login' %}";
-                }else{
-                    current_elem.text(data.msg)
-                }
-
-            }else if(data.status == 'success'){
-                current_elem.text(data.msg)
-            }
-        },
-    });
-}
-
-function add_mark(current_elem, page_id){
-    $.ajax({
-        cache: false,
-        type: "POST",
-        url:"{% url 'rango:mark_page' %}",
-        data:{'page_id':page_id},
-        async: true,
-        beforeSend:function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
-        },
-        success: function(data) {
-            if(data.status == 'fail'){
-                if(data.msg == 'Please login'){
-                    window.location.href="{% url 'rango:login' %}";
-                }else{
-                    current_elem.text(data.msg)
-                }
-
-            }else if(data.status == 'success'){
-                current_elem.text(data.msg)
-            }
-        },
-    });
-}
-
-$(document).ready(function() {
-    $('#like_page_btn').click(function() {
-        var pageIDVar;
-        var i = $(this).attr("class");
-        pageIDVar = $(this).attr('data-pageid');
-        add_like($(this),pageIDVar);
-
-        if(i == "iconfont icon-dianzan3"){
-            $(this).attr("class","iconfont icon-zan");
-        }else{
-            $(this).attr("class","iconfont icon-dianzan3");
-        }
-    });
-});
-$(document).ready(function() {
-    $('#mark_page_btn').click(function() {
-        var pageIDVar;
-        var i = $(this).attr("class");
-        pageIDVar = $(this).attr('data-pageid');
-        add_mark($(this),pageIDVar);
-        if(i == "iconfont icon-shoucang6"){
-            $(this).attr("class","iconfont icon-shoucang5");
-        }else{
-            $(this).attr("class","iconfont icon-shoucang6");
-        }
-    });
-});
-</script>
+<script type="text/javascript" src="{% static 'js/ajax_rango.js' %}"></script>
 {% endblock %}
 {% block index_block %}
   {{page.title}}
@@ -99,19 +21,19 @@ $(document).ready(function() {
                 <div class="event-left-sidebar">
                     <div class="event-text">
                         <h3>{{ page.title }}</h3><br/>
-                        Like:
+                        Like:&nbsp&nbsp
                         {% if like %}
-                        <i class="iconfont icon-dianzan3" id="like_page_btn" data-pageid="{{ page.id }}"></i>
+                        <i class="iconfont icon-dianzan1" data-url="{% url 'rango:like_page' %}" id="like_page_btn" data-pageid="{{ page.id }}"></i>
                         {% else %}
-                        <i class="iconfont icon-zan" id="like_page_btn" data-pageid="{{ page.id }}">
+                        <i class="iconfont icon-dianzan" data-url="{% url 'rango:like_page' %}" id="like_page_btn" data-pageid="{{ page.id }}">
                         </i>
                         {% endif %}
-                        Mark:
+                        Mark:&nbsp&nbsp
                         {% if mark %}
-                        <i class="iconfont icon-shoucang6" id="mark_page_btn" data-pageid="{{ page.id }}">
+                        <i class="iconfont icon-shoucang6" data-url="{% url 'rango:mark_page' %}" id="mark_page_btn" data-pageid="{{ page.id }}">
                         </i>
                         {% else %}
-                        <i class="iconfont icon-shoucang5" id="mark_page_btn"  data-pageid="{{ page.id }}">
+                        <i class="iconfont icon-shoucang5" data-url="{% url 'rango:mark_page' %}" id="mark_page_btn" data-pageid="{{ page.id }}">
                         </i>
                         {% endif %}
                         <br/><br/>

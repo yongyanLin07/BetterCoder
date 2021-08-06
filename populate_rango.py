@@ -100,6 +100,9 @@ def populate():
             user_id = random.randint(1,3)
             comment_id = random.randint(0,4)
             c = Comment.objects.get_or_create(page_id = page_id,user_id = user_id,content = comments[comment_id])[0]
+            p = Page.objects.get_or_create(id = page_id)[0]
+            p.comments += 1
+            p.save(update_fields=['comments'])
             c.save()
         return 'success'
     def add_like():

@@ -373,21 +373,25 @@ def commentlist(request):
     return render(request,'rango/show_commentlist.html',context = context_dict)
 @login_required
 def deletecomment(request):
-    comment_id = request.POST.get('comment_id', 0)
+    comment_id = request.POST.get('id', 0)
     print(comment_id)
     comment = Comment.objects.get(id = comment_id)
     page = comment.page
     page.comments -= 1
+    if page.comments <= 0:
+        page.comments = 0
     page.save(update_fields=['comments'])
     comment.delete()
     return redirect(reverse('rango:profile_page'))
 
 @login_required
 def deletelike(request):
-    like_id = request.POST.get('like_id', 0)
+    like_id = request.POST.get('id', 0)
     like = Like.objects.get(id = like_id)
     page = like.page
     page.likes -= 1
+    if page.likes <= 0:
+        page.likes = 0
     page.save(update_fields=['likes'])
     category = page.category
     category.likes -=1
@@ -397,10 +401,12 @@ def deletelike(request):
 
 @login_required
 def deletemark(request):
-    mark_id = request.POST.get('mark_id', 0)
+    mark_id = request.POST.get('id', 0)
     mark = Mark.objects.get(id = mark_id)
     page = mark.page
     page.marks -= 1
+    if page.marks <= 0:
+        page.marks = 0
     page.save(update_fields=['marks'])
     mark.delete()
     return redirect(reverse('rango:profile_page'))

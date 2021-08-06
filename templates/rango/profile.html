@@ -1,7 +1,10 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-User Profile
+{{ user.username }} Profile Page
+{% endblock %}
+{% block ajax_block %}
+<script type="text/javascript" src="{% static 'js/ajax_rango.js' %}"></script>
 {% endblock %}
 {% block index_block %}
 {{ user.username }} Profile Page
@@ -21,8 +24,8 @@ User Profile
                 {% for hidden in user_form.hidden_fields %}
                 {{ hidden }}
                 {% endfor %}
-                Username:<br /> <input type="text"  name="username"><br />
-                Email: <br /> <input type="text" name="email"><br />
+                Username:<br /> <input type="text" value="{{ user.username }}"  name="username"><br />
+                Email: <br /> <input type="text" value="{{ user.email }}" name="email"><br />
                 Website:<br />
                 {{ profile_form.website }}<br />
                 Picture:<br />
@@ -33,9 +36,13 @@ User Profile
     </div>
     <div class="profile_right f-left">
     <div class="alist"> 
-        <a href="{% url 'rango:marklist' %}">Mark List</a>
-        <a href="{% url 'rango:likelist' %}">Like List</a>
-        <a href="{% url 'rango:commentlist' %}">Comment List</a>
+            <a href="{% url 'rango:marklist' %}">Mark List</a>
+            <a href="{% url 'rango:likelist' %}">Like List</a>
+            <a href="{% url 'rango:commentlist' %}">Comment List</a>
+    </div>
+    {% block listblock %}
+    {% endblock %}
     </div>
 </div>
 {% endblock %}
+
