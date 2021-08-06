@@ -17,13 +17,6 @@ class CategoryForm(forms.ModelForm):
         fields = ('name','description','image',)
 
 class PageForm(forms.ModelForm):
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        url = cleaned_data.get('url')
-        if url and not url.startswith('http://'):
-            url = f'http://{url}'
-            cleaned_data['url'] = url
-        return cleaned_data
     title = forms.CharField(max_length=Page.TITLE_MAX_LENGTH)
     url = forms.URLField(max_length=Page.URL_MAX_LENGTH)
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0) 
