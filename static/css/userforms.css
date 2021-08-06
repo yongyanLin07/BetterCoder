@@ -19,7 +19,7 @@
     margin: 0 auto; 
     margin-bottom: 200px; 
     top: 0px; 
-    width: 300px; 
+    width: 270px; 
     height: 420px;
     border:2px solid slategray;
     border-radius: 20px;
@@ -39,14 +39,14 @@ h4{
 #user-form{
     width: 300px;
     height: 200px;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 #user-form input{
     font-size: 20px;
     border-radius: 30px;
 }
-#user-form span{
+#user-form p {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 .field label{
